@@ -73,6 +73,7 @@ int main() {
 
     // Print the predefined path in the expected format
     printf("The Path is:\n");
+    printf("1");
     for (int i = 2; i <= N; i++) {
         printf("-->%d", i);
     }
