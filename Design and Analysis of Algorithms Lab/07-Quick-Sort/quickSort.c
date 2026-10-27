@@ -1,62 +1,54 @@
 #include <stdio.h>
 
-// Function to perform quicksort
-void quicksort(int num[], int first, int last) {
-    int i, j, pivot, temp;
+int partition(int a[], int p, int r) {
+    int pivot = a[r];
+    int i = p - 1;
+    int j, temp;
 
-    if (first < last) {
-        pivot = first;
-        i = first;
-        j = last;
+    // Iterate through the array and place elements smaller than pivot to the left
+    for (j = p; j < r; j++) {
+        if (a[j] <= pivot) {
+            i++;
 
-        // Partitioning process
-        while (i < j) {
-            while (num[i] <= num[pivot] && i < last)
-                i++;
-            while (num[j] > num[pivot])
-                j--;
-            if (i < j) {
-                temp = num[i];
-                num[i] = num[j];
-                num[j] = temp;
-            }
+            // Swap a[i] and a[j]
+            temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
         }
+    }
 
-        // Swapping pivot to the correct position
-        temp = num[pivot];
-        num[pivot] = num[j];
-        num[j] = temp;
+    // Place the pivot in its correct position
+    temp = a[i + 1];
+    a[i + 1] = a[r];
+    a[r] = temp;
 
-        // Recursively sort the partitions
-        quicksort(num, first, j - 1);
-        quicksort(num, j + 1, last);
+    return (i + 1);
+}
+
+void quicksort(int a[], int p, int r) {
+    int q;
+    if (p < r) {
+        // Find the partition index
+        q = partition(a, p, r);
+
+        // Recursively sort elements before and after partition
+        quicksort(a, p, q - 1);
+        quicksort(a, q + 1, r);
     }
 }
 
-int main() {
-    int n, i;
-
-    // Input the number of elements
+void main() {
+    int a[10], i, j, pivot, n, p, r;
     printf("Enter the no of elements: ");
     scanf("%d", &n);
-
-    int o[n];
-
-    // Input the elements
     printf("Enter numbers to be sorted: ");
-    for (i = 0; i < n; i++) {
-        scanf("%d", &o[i]);
-    }
-
-    // Perform quicksort
-    quicksort(o, 0, n - 1);
-
-    // Output the sorted array
+    for (i = 1; i <= n; i++)
+        scanf("%d", &a[i]);
+    p = 1;
+    r = n;
+    quicksort(a, p, r);
     printf("Sorted array is: ");
-    for (i = 0; i < n; i++) {
-        printf("%d ", o[i]);
-    }
+    for (i = 1; i <= n; i++)
+        printf("%d ", a[i]);
     printf("\n");
-
-    return 0;
 }
